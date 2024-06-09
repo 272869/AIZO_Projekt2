@@ -1,6 +1,6 @@
 #include "Prim.h"
 
-EdgesWrap Prim::getMST(IncidenceMatrix *matrix) {
+EdgeList Prim::getMST(IncidenceMatrix *matrix) {
     int vertNum = (int)matrix->getNumVertices();
     auto* mstVertex = new MSTVertex[vertNum];
     mstVertex[0].minWeight = 0;
@@ -37,7 +37,7 @@ EdgesWrap Prim::getMST(IncidenceMatrix *matrix) {
         }
         mstVertex[minParent].visited = true;
     }
-    auto* edges = new EdgesWrap::Edge[vertNum-1];
+    auto* edges = new EdgeList::Edge[vertNum-1];
     int j = 0;
     for (int i = 0; i < vertNum; i++) {
         if(mstVertex[i].parent == -1) continue;
@@ -50,7 +50,7 @@ EdgesWrap Prim::getMST(IncidenceMatrix *matrix) {
     delete[] mstVertex;
     return {(unsigned  int)vertNum, (unsigned  int)vertNum-1, edges};
 }
-EdgesWrap Prim::getMST(AdjacencyList *list) {
+EdgeList Prim::getMST(AdjacencyList *list) {
     int vertNum = (int)list->getVertices();
     auto* mstVertex = new MSTVertex[vertNum];
     mstVertex[0].minWeight = 0;
@@ -86,7 +86,7 @@ EdgesWrap Prim::getMST(AdjacencyList *list) {
         }
         mstVertex[minParent].visited = true; // Oznaczenie wierzchołka jako odwiedzonego.
     }
-    auto* edges = new EdgesWrap::Edge[vertNum-1]; // Tablica krawędzi w MST.
+    auto* edges = new EdgeList::Edge[vertNum-1]; // Tablica krawędzi w MST.
     int j = 0;
     for (int i = 0; i < vertNum; i++) {
         if(mstVertex[i].parent == -1) continue;

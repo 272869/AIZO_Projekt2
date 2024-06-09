@@ -7,7 +7,7 @@
 
 class TransformGenerated {
 public:
-    static IncidenceMatrix transformToMatrix(EdgesWrap* wrap);
-    static AdjacencyList transformToList(EdgesWrap* wrap);
+    static IncidenceMatrix transformToMatrix(EdgeList* wrap);
+    static AdjacencyList transformToList(EdgeList* wrap);
 };
 #endif //AIZO_P2_TRANSFORMGENERATED_H

@@ -2,7 +2,7 @@
 #include <random>
 #include "GenerateGraph.h"
 
-EdgesWrap GenerateGraph::generateEdgeList(unsigned int vertices, unsigned char density) {
+EdgeList GenerateGraph::generateEdgeList(unsigned int vertices, unsigned char density) {
     if(density == 99) return generateFor99(vertices);
     if(density < 25){
         throw std::runtime_error("GenerateGraph: Min density is 25");;
@@ -18,7 +18,7 @@ EdgesWrap GenerateGraph::generateEdgeList(unsigned int vertices, unsigned char d
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> weight(1, 100);
 
-    auto* edges = new EdgesWrap::Edge[totalEdges];
+    auto* edges = new EdgeList::Edge[totalEdges];
 
     int* verticesToVisit = new int[vertices - 1];
     int verticesToVisitSize = (int) vertices - 1;
@@ -80,7 +80,7 @@ EdgesWrap GenerateGraph::generateEdgeList(unsigned int vertices, unsigned char d
     return {vertices, totalEdges, edges};
 }
 
-bool GenerateGraph::isExisting(EdgesWrap::Edge *list, unsigned int size, unsigned int start, unsigned int end) {
+bool GenerateGraph::isExisting(EdgeList::Edge *list, unsigned int size, unsigned int start, unsigned int end) {
     for(int i = 0; i < size; i++){
         if(list[i].start == start){
             if(list[i].end == end) return true;
@@ -89,9 +89,9 @@ bool GenerateGraph::isExisting(EdgesWrap::Edge *list, unsigned int size, unsigne
     return false;
 }
 
-EdgesWrap GenerateGraph::generateFor99(unsigned int vertices) {
+EdgeList GenerateGraph::generateFor99(unsigned int vertices) {
     unsigned long  totalEdges = vertices * (vertices - 1);
-    auto* edges = new EdgesWrap::Edge[totalEdges];
+    auto* edges = new EdgeList::Edge[totalEdges];
 
     std::random_device rd;
     std::mt19937 gen(rd());

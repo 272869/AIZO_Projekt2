@@ -12,7 +12,7 @@
 void Test::startTests() {
     // Tablice z gęstościami i liczbą wierzchołków
     float density[] = {25,50,99};
-    int vertex[] = {20,40,80};
+    int vertex[] = {20,40,80,100,140,180,200};
     std::string format ="vertex, density[%], time[us]"; // Format nagłówka pliku CSV
     typeOfDataMessage(format); // Zapisanie nagłówka do plików
     // Pętle iterujące przez wszystkie kombinacje gęstości i liczby wierzchołków
@@ -28,8 +28,8 @@ void Test::startTests() {
             long long timeFordBellmanlList=0;
             long long timeFordBellmanMatrix=0;
             // Iteracja 25 razy dla każdej kombinacji
-            for(int i=0;i<1;i++){
-                EdgesWrap edgeWrap = generator.generateEdgeList(v, d);
+            for(int i=0;i<25;i++){
+                EdgeList edgeWrap = generator.generateEdgeList(v, d);
                 matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeWrap));
                 list = new AdjacencyList(transformer.transformToList(&edgeWrap));
                 // Pomiar czasu dla każdego z algorytmów
@@ -63,7 +63,7 @@ void Test::saveToCsvFile(std::string fileName, long long time , int vertexNum,fl
         return;
     }
     double time2;
-    time2 = static_cast<double>(time)/1; // Obliczenie średniego czasu
+    time2 = static_cast<double>(time)/25; // Obliczenie średniego czasu
     file << vertexNum << ","<<density<<","<<time2<<std::endl; // Zapisanie danych do pliku CSV
     file.close(); // Zamknięcie pliku
 }

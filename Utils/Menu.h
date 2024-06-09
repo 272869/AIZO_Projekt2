@@ -8,7 +8,7 @@ public:
 
 
     void mainMenu();
-    void MstMenu();
+    static void MstMenu();
     void SptMenu();
     Test test;
 };

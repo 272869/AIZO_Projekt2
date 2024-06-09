@@ -12,8 +12,8 @@ class Prim {
         int parent = -1; // Rodzic wierzchołka w MST.
     };
 public:
-    static EdgesWrap getMST(IncidenceMatrix* matrix);
-    static EdgesWrap getMST(AdjacencyList* list);
+    static EdgeList getMST(IncidenceMatrix* matrix);
+    static EdgeList getMST(AdjacencyList* list);
 };
 
 

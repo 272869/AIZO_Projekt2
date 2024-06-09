@@ -32,7 +32,7 @@ int* Dijkstra::getPath(int start, int end) {
 }
 
 
-EdgesWrap Dijkstra::getSPT(IncidenceMatrix *matrix, int start) {
+EdgeList Dijkstra::getSPT(IncidenceMatrix *matrix, int start) {
     int vertNum = (int)matrix->getNumVertices();
     vertex = new SPTVertex[vertNum];
     vertex[start].parent = start;
@@ -68,7 +68,7 @@ EdgesWrap Dijkstra::getSPT(IncidenceMatrix *matrix, int start) {
         }
         vertex[minParent].visited = true;
     }
-    auto* edges = new EdgesWrap::Edge[vertNum];
+    auto* edges = new EdgeList::Edge[vertNum];
     int j = 0;
     for (int i = 0; i < vertNum; i++) {
          // Pomijamy wierzchołek startowy
@@ -79,11 +79,10 @@ EdgesWrap Dijkstra::getSPT(IncidenceMatrix *matrix, int start) {
 
     }
 
-
     return {(unsigned  int)vertNum, (unsigned  int)vertNum, edges};
 }
 
-EdgesWrap Dijkstra::getSPT(AdjacencyList *list, int start) {
+EdgeList Dijkstra::getSPT(AdjacencyList *list, int start) {
     int vertNum = (int)list->getVertices();
     vertex = new SPTVertex[vertNum];
     vertex[start].parent = start;
@@ -114,7 +113,7 @@ EdgesWrap Dijkstra::getSPT(AdjacencyList *list, int start) {
         }
         vertex[minParent].visited = true;
     }
-    auto* edges = new EdgesWrap::Edge[vertNum];
+    auto* edges = new EdgeList::Edge[vertNum];
     int j = 0;
     for (int i = 0; i < vertNum; i++) {
         edges[j].start = vertex[i].parent;
@@ -122,10 +121,9 @@ EdgesWrap Dijkstra::getSPT(AdjacencyList *list, int start) {
         edges[j].weight = vertex[i].minWeight;
         j++;
     }
-
     return {(unsigned  int)vertNum, (unsigned  int)vertNum, edges};
 }
-void Dijkstra::printPath( EdgesWrap edgesWrap, int start, int end) {
+void Dijkstra::printPath( const EdgeList& edgesWrap, int start, int end) {
     if (edgesWrap.edges[end].weight == -1) {
         std::cout << "Nie ma dostępnej sciezki z " << edgesWrap.edges[0].start << " do " << end << std::endl;
         return;
@@ -139,16 +137,6 @@ void Dijkstra::printPath( EdgesWrap edgesWrap, int start, int end) {
         j++;
     }
     std::cout << end << std::endl;
-    /*while (1) {
-        std::cout << edgesWrap.edges[j].start << " <-- ";
-        totalCost += edgesWrap.edges[j].weight;
-        if(edgesWrap.edges[j].end==end){
-            std::cout << end;
-            break;
-        }
-        j++;
-
-    }*/
     std::cout << "\nDlugosc sciezki: " << totalCost << std::endl;
 }
 

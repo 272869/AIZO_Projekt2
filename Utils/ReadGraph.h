@@ -7,6 +7,6 @@
 
 class ReadGraph {
 public:
-   static EdgesWrap readGraph(const std::string& filename);
+   static EdgeList readGraph(const std::string& filename);
 };
 #endif //AIZO_P2_READGRAPH_H

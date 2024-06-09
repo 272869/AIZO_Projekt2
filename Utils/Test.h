@@ -1,15 +1,12 @@
 #ifndef AIZO_P2_TEST_H
 #define AIZO_P2_TEST_H
 
-
-
-
 #include <iostream>
 #include "../Graph/IncidenceMatrix.h"
 #include "../Graph/AdjacencyList.h"
 #include "GenerateGraph.h"
 #include "TransformGenerated.h"
-#include "PathInfo.h"
+
 
 class Test {
 public:

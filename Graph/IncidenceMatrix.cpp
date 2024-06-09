@@ -29,6 +29,7 @@ void IncidenceMatrix::addEdge(unsigned int startVertex, unsigned int endVertex, 
     }
 }
 
+
 void IncidenceMatrix::print(){
     std::cout << "    ";
     for (int i = 0; i < numEdges; i++){

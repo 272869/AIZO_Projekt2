@@ -23,6 +23,7 @@ void Menu::mainMenu() {
                 break;
             case 2:
                 SptMenu();
+
                 break;
             case 3:
                 test.startTests();
@@ -51,8 +52,8 @@ void Menu::MstMenu() {
         std::cin >> option;
         std::string fileName;
         switch (option) {
-            case 1:
-            {if (matrix != nullptr) delete matrix;
+            case 1:{
+                if (matrix != nullptr) delete matrix;
                 if (list != nullptr) delete list;
                 std::cout << "Podaj ilosc wierzcholkow" << std::endl;
                 int vertices;
@@ -61,11 +62,11 @@ void Menu::MstMenu() {
                 int density;
                 std::cin >> density;
                 GenerateGraph generator;
-                EdgesWrap edgeWrap = generator.generateEdgeList(vertices, density);  // density in percentage
+                EdgeList edgeList = generator.generateEdgeList(vertices, density);  // density in percentage
                 // Transformacja na macierz incydencji i listę sąsiedztwa
                 TransformGenerated transformer;
-                matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeWrap));
-                list = new AdjacencyList(transformer.transformToList(&edgeWrap));
+                matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeList));
+                list = new AdjacencyList(transformer.transformToList(&edgeList));
                 break;}
             case 2:{
                 if (matrix != nullptr) delete matrix;
@@ -73,11 +74,11 @@ void Menu::MstMenu() {
                 std::cout << "Podaj nazwe pliku: ";
                 std::cin >> fileName;
                 try {
-                    EdgesWrap edgeWrap = ReadGraph::readGraph(fileName);
+                    EdgeList edgeList = ReadGraph::readGraph(fileName);
                     // Transformacja na macierz incydencji i listę sąsiedztwa
                     TransformGenerated transformer;
-                    matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeWrap));
-                    list = new AdjacencyList(transformer.transformToList(&edgeWrap));
+                    matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeList));
+                    list = new AdjacencyList(transformer.transformToList(&edgeList));
                 } catch (const std::exception& e) {
                     std::cerr << "Blad: " << e.what() << std::endl;
                 }
@@ -88,22 +89,32 @@ void Menu::MstMenu() {
                 list->print();
                 break;
             case 4:{
+                if (!matrix || !list) {
+                    std::cout << "Graf nie został jeszcze wczytany ani wygenerowany." << std::endl;
+                    break;
+                }
                 std::cout << "Matrix:" << std::endl;
-                EdgesWrap wrapMatrix = Prim::getMST(matrix);
-                wrapMatrix.print();
+                EdgeList edgeListMatrix = Prim::getMST(matrix);
+                edgeListMatrix.print();
                 std::cout << std::endl << "List:" << std::endl;
-                EdgesWrap wrapList = Prim::getMST(list);
-                wrapList.print();
+                EdgeList edgeListList = Prim::getMST(list);
+                edgeListList.print();
                 break;}
             case 5:{
+                if (!matrix || !list) {
+                    std::cout << "Graf nie został jeszcze wczytany ani wygenerowany." << std::endl;
+                    break;
+                }
                 std::cout << "Matrix:" << std::endl;
-                EdgesWrap wrapMatrix = Kruskal::getMST(matrix);
-                wrapMatrix.print();
+                EdgeList edgeListMatrix = Kruskal::getMST(matrix);
+                edgeListMatrix.print();
                 std::cout << std::endl << "List:" << std::endl;
-                EdgesWrap wrapList = Kruskal::getMST(list);
-                wrapList.print();
+                EdgeList edgeListList = Kruskal::getMST(list);
+                edgeListList.print();
                 break;}
             case 0:
+                if (matrix) delete matrix;
+                if (list) delete list;
                 return;
         }
     }
@@ -124,8 +135,7 @@ void Menu::SptMenu() {
         std::cin >> option;
         std::string fileName;
         switch (option) {
-            case 1:
-            {
+            case 1:{
                 if (matrix != nullptr) delete matrix;
                 if (list != nullptr) delete list;
                 std::cout << "Podaj ilosc wierzcholkow" << std::endl;
@@ -135,12 +145,11 @@ void Menu::SptMenu() {
                 int density;
                 std::cin >> density;
                 GenerateGraph generator;
-                EdgesWrap edgeWrap = generator.generateEdgeList(vertices, density);  // density in percentage
+                EdgeList edgeList = generator.generateEdgeList(vertices, density);  // density in percentage
                 // Transformacja na macierz incydencji i listę sąsiedztwa
                 TransformGenerated transformer;
-                matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeWrap));
-                list = new AdjacencyList(transformer.transformToList(&edgeWrap));
-
+                matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeList));
+                list = new AdjacencyList(transformer.transformToList(&edgeList));
                 break;
             }
             case 2:{
@@ -149,11 +158,11 @@ void Menu::SptMenu() {
                 std::cout << "Podaj nazwe pliku: ";
                 std::cin >> fileName;
                 try {
-                    EdgesWrap edgeWrap = ReadGraph::readGraph(fileName);
+                    EdgeList edgeList = ReadGraph::readGraph(fileName);
                     // Transformacja na macierz incydencji i listę sąsiedztwa
                     TransformGenerated transformer;
-                    matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeWrap));
-                    list = new AdjacencyList(transformer.transformToList(&edgeWrap));
+                    matrix = new IncidenceMatrix(transformer.transformToMatrix(&edgeList));
+                    list = new AdjacencyList(transformer.transformToList(&edgeList));
                 } catch (const std::exception& e) {
                     std::cerr << "Blad: " << e.what() << std::endl;
                 }
@@ -163,8 +172,7 @@ void Menu::SptMenu() {
                 if (matrix) matrix->print();
                 if (list) list->print();
                 break;
-            case 4:
-            {
+            case 4:{
                 if (!matrix || !list) {
                     std::cout << "Graf nie został jeszcze wczytany ani wygenerowany." << std::endl;
                     break;
@@ -176,17 +184,14 @@ void Menu::SptMenu() {
                 int endVertex;
                 std::cin >> endVertex;
                 std::cout << "Matrix:" << std::endl;
-                EdgesWrap wrapMatrix = Dijkstra::getSPT(matrix, startVertex);
-                wrapMatrix.print();
-                Dijkstra::printPath(wrapMatrix, startVertex, endVertex);
+                EdgeList edgeListMatrix = Dijkstra::getSPT(matrix, startVertex);
+                Dijkstra::printPath(edgeListMatrix, startVertex, endVertex);
                 std::cout << std::endl << "List:" << std::endl;
-                EdgesWrap wrapList = Dijkstra::getSPT(list, startVertex);
-                wrapList.print();
-                Dijkstra::printPath(wrapList, startVertex, endVertex);
+                EdgeList edgeListList = Dijkstra::getSPT(list, startVertex);
+                Dijkstra::printPath(edgeListList, startVertex, endVertex);
                 break;
             }
-            case 5:
-            {
+            case 5:{
                 if (!matrix || !list) {
                     std::cout << "Graf nie został jeszcze wczytany ani wygenerowany." << std::endl;
                     break;
@@ -198,16 +203,16 @@ void Menu::SptMenu() {
                 int endVertex;
                 std::cin >> endVertex;
                 std::cout << "Matrix:" << std::endl;
-                EdgesWrap wrapMatrix = BellmanFord::getSPT(matrix, startVertex);
-                wrapMatrix.print();
-                BellmanFord::printPath(wrapMatrix, startVertex, endVertex);
+                EdgeList edgeListMatrix = BellmanFord::getSPT(matrix, startVertex);
+                BellmanFord::printPath(edgeListMatrix, startVertex, endVertex);
                 std::cout << std::endl << "List:" << std::endl;
-                EdgesWrap wrapList = BellmanFord::getSPT(list, startVertex);
-                wrapList.print();
-                BellmanFord::printPath(wrapList, startVertex, endVertex);
+                EdgeList edgeListList = BellmanFord::getSPT(list, startVertex);
+                BellmanFord::printPath(edgeListList, startVertex, endVertex);
                 break;
             }
             case 0:
+                if (matrix) delete matrix;
+                if (list) delete list;
                 return;
         }
     }

@@ -4,14 +4,14 @@
 #include "EdgesWrap.h"
 #include "ReadGraph.h"
 
- EdgesWrap ReadGraph::readGraph(const std::string& filename) {
+EdgeList ReadGraph::readGraph(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open file: " + filename);
     }
     unsigned int vertices, edgesCount;
     file >> edgesCount >> vertices;
-    auto* edges = new EdgesWrap::Edge[edgesCount];
+    auto* edges = new EdgeList::Edge[edgesCount];
     for (unsigned int i = 0; i < edgesCount; ++i) {
         int start, end, weight;
         file >> start >> end >> weight;

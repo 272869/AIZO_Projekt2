@@ -14,8 +14,8 @@ class Kruskal {
         int color;
     };
 public:
-    static EdgesWrap getMST(IncidenceMatrix* matrix);
-    static EdgesWrap getMST(AdjacencyList* list);
+    static EdgeList getMST(IncidenceMatrix* matrix);
+    static EdgeList getMST(AdjacencyList* list);
 };
 
 #endif //AIZO_P2_KRUSKAL_H

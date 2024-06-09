@@ -1,9 +1,8 @@
-#include <limits>
 #include "BellmanFord.h"
 int BellmanFord::totalCost = 0;
 BellmanFord::SPTVertex* BellmanFord::vertex = nullptr;
 
-EdgesWrap BellmanFord::getSPT(IncidenceMatrix *matrix, int start) {
+EdgeList BellmanFord::getSPT(IncidenceMatrix *matrix, int start) {
     int vertNum = (int)matrix->getNumVertices();
     int edgeNum = (int)matrix->getNumEdges();
     vertex = new SPTVertex[vertNum];
@@ -32,7 +31,7 @@ EdgesWrap BellmanFord::getSPT(IncidenceMatrix *matrix, int start) {
         }
     }
 
-    auto* edges = new EdgesWrap::Edge[vertNum];
+    auto* edges = new EdgeList::Edge[vertNum];
     int j = 0;
     for (int i = 0; i < vertNum; i++) {
         edges[j].start = vertex[i].parent;
@@ -44,7 +43,7 @@ EdgesWrap BellmanFord::getSPT(IncidenceMatrix *matrix, int start) {
     return {(unsigned  int)vertNum, (unsigned  int)vertNum, edges};
 }
 
-EdgesWrap BellmanFord::getSPT(AdjacencyList *list, int start) {
+EdgeList BellmanFord::getSPT(AdjacencyList *list, int start) {
     int vertNum = (int)list->getVertices();
     vertex = new SPTVertex[vertNum];
     vertex[start].parent = start;
@@ -68,7 +67,7 @@ EdgesWrap BellmanFord::getSPT(AdjacencyList *list, int start) {
         }
     }
 
-    auto* edges = new EdgesWrap::Edge[vertNum];
+    auto* edges = new EdgeList::Edge[vertNum];
     int j = 0;
     for (int i = 0; i < vertNum; i++) {
         edges[j].start = vertex[i].parent;
@@ -108,7 +107,7 @@ int* BellmanFord::getPath(int start, int end) {
     return path;
 }
 
-void BellmanFord::printPath( EdgesWrap edgesWrap, int start, int end) {
+void BellmanFord::printPath( const EdgeList& edgesWrap, int start, int end) {
     if (edgesWrap.edges[end].weight == -1) {
         std::cout << "Nie ma dostępnej sciezki z " << edgesWrap.edges[0].start << " do " << end << std::endl;
         return;
@@ -122,15 +121,5 @@ void BellmanFord::printPath( EdgesWrap edgesWrap, int start, int end) {
         j++;
     }
     std::cout << end << std::endl;
-    /*while (1) {
-        std::cout << edgesWrap.edges[j].start << " <-- ";
-        totalCost += edgesWrap.edges[j].weight;
-        if(edgesWrap.edges[j].end==end){
-            std::cout << end;
-            break;
-        }
-        j++;
-
-    }*/
     std::cout << "\nDlugosc sciezki: " << totalCost << std::endl;
 }
