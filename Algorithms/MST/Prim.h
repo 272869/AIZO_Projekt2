@@ -8,7 +8,7 @@
 class Prim {
     struct MSTVertex{
         bool visited = false; // Zmienna określająca, czy wierzchołek został już odwiedzony.
-        int minWeight = -1; // Minimalna waga krawędzi łączącej wierzchołek z MST.
+        int minWeight = -1; // Minimalna waga krawędzi łączącej wierzchołek z drzewem.
         int parent = -1; // Rodzic wierzchołka w MST.
     };
 public:

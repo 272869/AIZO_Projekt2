@@ -16,14 +16,16 @@ EdgeList Kruskal::getMST(IncidenceMatrix *matrix) {
 
     int previousWeight = -1;
     int k = 0;
-    //Algorytm wykonuje pętlę, w której dodaje krawędzie do MST, aż osiągnie liczbę V−1 krawędzi.
+    //pętla, w której dodaje krawędzie do MST, aż osiągnie liczbę V−1 krawędzi.
     while(k < vertices - 1) {
         auto* toCheckList = new EdgeList(vertices, 0, new EdgeList::Edge[0]);
-        int min = -1;
+        int min = -1; //min to minimalna waga krawędzi znaleziona w bieżącej iteracji.
+        //przechodzimy przez krawędzie
         for (int i = 0; i < edges; i++) {
             int eStart = -1;
             int eEnd = -1;
             int weight = -1;
+            //znajdujemy krawedz w macierzy
             for (int j = 0; j < vertices; j++) {
                 if (matrix->getMatrix()[j][i] != 0) { //sprawdzamy czy istnieje krawędz
                     if (matrix->getMatrix()[j][i] == -1) { //sprawdzamy czy to koniec krawędzi
@@ -35,14 +37,22 @@ EdgeList Kruskal::getMST(IncidenceMatrix *matrix) {
                     if (eStart != -1 && eEnd != -1) break; //jesli krawedz znaleziona przerywamy petle
                 }
             }
-            if ((weight < min || min == -1)&& (weight > previousWeight || previousWeight == -1)) { //jesli previousWeight =-1 to jest to pierwsza krawędz
+            //Sprawdza, czy bieżąca waga krawędzi (weight) jest mniejsza od aktualnie znalezionej minimalnej wagi (min).
+            //min == -1 jest warunkiem początkowym, który zapewnia, że pierwszy napotkany weight zostanie uznany za min.
+            //Sprawdza, czy bieżąca waga krawędzi (weight) jest większa niż previousWeight, czyli waga krawędzi z poprzedniej iteracji.
+            //previousWeight == -1 jest warunkiem początkowym, który pozwala na zaakceptowanie każdej wagi w pierwszej iteracji.
+            //Jeżeli oba warunki są spełnione (czyli bieżąca krawędź ma wagę większą niż poprzednio przetwarzana krawędź,
+            //ale mniejszą niż dotychczas znalezione minimalne wartości), min jest aktualizowane na bieżącą wartość weight,
+            // a toCheckList jest inicjalizowana jako nowa, pusta lista krawędzi.
+            if ((weight < min || min == -1)&& (weight > previousWeight || previousWeight == -1)) {
                 min = weight;
                 toCheckList = new EdgeList(vertices, 0, new EdgeList::Edge[0]);
-                //resetujemy listę toCheckList, aby zacząć przetrzymywać krawędzie o tej nowej minimalnej wadze.
             }
+            //Sprawdza, czy waga bieżącej krawędzi (weight) jest równa aktualnie najmniejszej znalezionej wadze (min).
+            //Jeżeli bieżąca krawędź ma wagę równą min, jest dodawana do listy toCheckList.
+            //Warunek ten zapewnia, że wszystkie krawędzie o aktualnie najmniejszej wadze zostaną zebrane w toCheckList
             if(weight == min){
                 toCheckList->addEdge(EdgeList::Edge(eStart, eEnd, weight));
-                //Jeśli weight == min, dodajemy krawędź do toCheckList, ponieważ jest to krawędź o min wadze, która jest aktualnie rozważana.
             }
         }
         previousWeight = min; // aktualizujemy poprzednią krawędź

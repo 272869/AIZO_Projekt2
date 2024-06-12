@@ -5,7 +5,7 @@ EdgeList Prim::getMST(IncidenceMatrix *matrix) {
     auto* mstVertex = new MSTVertex[vertNum]; // tablica struktur MSTVertex dla każdego wierzchołka
     mstVertex[0].minWeight = 0; //Pierwszy wierzcholek ma wage 0, bo do niego nie mozna dojsc
 
-
+//dodaje każdy kolejny wierzchołek do MST
     for(int k = 0; k < vertNum - 1; k++) {
         int minParentWeight = -1; //minParentWeight przechowuje najmniejszą wagę spośród wierzchołków do odwiedzenia.
         int minParent = -1; //minParent przechowuje indeks wierzchołka z najmniejszą wagą, który zostanie dodany do MST.
