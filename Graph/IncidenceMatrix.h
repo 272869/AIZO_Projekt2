@@ -12,9 +12,9 @@ public:
     ~IncidenceMatrix();
     void addEdge(unsigned int startVertex, unsigned int endVertex, unsigned short weight, unsigned int edge);
 
-    [[nodiscard]] int **getMatrix() const;
-    [[nodiscard]] unsigned int getNumVertices() const;
-    [[nodiscard]] unsigned int getNumEdges() const;
+    int **getMatrix() const;
+    unsigned int getNumVertices() const;
+    unsigned int getNumEdges() const;
 
     void print();
 

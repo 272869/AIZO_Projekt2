@@ -3,60 +3,38 @@
 int Dijkstra::totalCost = 0;
 Dijkstra::SPTVertex* Dijkstra::vertex = nullptr;
 
-int* Dijkstra::getPath(int start, int end) {
-    // Sprawdzenie, czy istnieje ścieżka
-    if (vertex[end].minWeight == -1) {
-        return nullptr;
-    }
-
-    // Liczenie długości ścieżki
-    int length = 0;
-    totalCost = 0;  // Resetowanie totalCost przed rozpoczęciem obliczeń
-    for (int v = end; v != start; v = vertex[v].parent) {
-        totalCost += vertex[v].minWeight - vertex[vertex[v].parent].minWeight;  // Dodanie wagi aktualnej krawędzi do totalCost
-        length++;
-    }
-    length++; // Dodanie wierzchołka startowego
-
-    // Tworzenie tablicy wynikowej
-    int* path = new int[length];
-    int index = length - 1;
-
-    // Wypełnianie tablicy ścieżki
-    for (int v = end; v != start; v = vertex[v].parent) {
-        path[index--] = v;
-    }
-    path[index] = start;
-
-    return path;
-}
-
-
 EdgeList Dijkstra::getSPT(IncidenceMatrix *matrix, int start) {
     int vertNum = (int)matrix->getNumVertices();
     vertex = new SPTVertex[vertNum];
     vertex[start].parent = start;
     vertex[start].minWeight = 0;
+    //Ustawia wierzchołek startowy jako swój własny rodzic z wagą 0.
 
 
     for(int k = 0; k < vertNum - 1; k++) {
         int minParentWeight = -1;
         int minParent = -1;
+        //Szuka wierzchołka, który ma najmniejszą wagę połączenia
+        // (czyli najbliższego wierzchołka, który jeszcze nie został odwiedzony).
         for (int i = 0; i < vertNum; i++) {
             if (!vertex[i].visited && vertex[i].minWeight > -1
                 && (vertex[i].minWeight < minParentWeight || minParentWeight == -1)) {
-                minParentWeight = vertex[i].minWeight;
-                minParent = i;
+                minParentWeight = vertex[i].minWeight;// Aktualizacja minimalnej wagi.
+                minParent = i; // Aktualizacja wierzchołka o minimalnej wadze.
             }
         }
+        // Jeśli nie znaleziono wierzchołka, przerwij pętlę.
         if(minParent == -1) break;
 
+        // Iterowanie po wszystkich krawędziach wychodzących z minParent.
         for (int i = 0; i < matrix->getNumEdges(); i++) {
-            int tempParWeight = matrix->getMatrix()[minParent][i];
+            int tempParWeight = matrix->getMatrix()[minParent][i]; // Waga krawędzi z minParent.
+            // Sprawdzenie, czy istnieje krawędź.
             if (tempParWeight > 0) {
                 for (int j = 0; j < vertNum; j++) {
                     if (minParent == j) continue;
                     int tempChildWeight = matrix->getMatrix()[j][i];
+                    // Sprawdzenie, czy można zaktualizować minimalną wagę dla wierzchołka j.
                     if (tempChildWeight != 0) {
                         if (!vertex[j].visited && (vertex[j].minWeight > tempParWeight + vertex[minParent].minWeight  || vertex[j].minWeight == -1)) {
                             vertex[j].minWeight = tempParWeight + vertex[minParent].minWeight;
@@ -123,6 +101,35 @@ EdgeList Dijkstra::getSPT(AdjacencyList *list, int start) {
     }
     return {(unsigned  int)vertNum, (unsigned  int)vertNum, edges};
 }
+
+int* Dijkstra::getPath(int start, int end) {
+    // Sprawdzenie, czy istnieje ścieżka
+    if (vertex[end].minWeight == -1) {
+        return nullptr;
+    }
+
+    // Liczenie długości ścieżki
+    int length = 0;
+    totalCost = 0;  // Resetowanie totalCost przed rozpoczęciem obliczeń
+    for (int v = end; v != start; v = vertex[v].parent) {
+        totalCost += vertex[v].minWeight - vertex[vertex[v].parent].minWeight;  // Dodanie wagi aktualnej krawędzi do totalCost
+        length++;
+    }
+    length++; // Dodanie wierzchołka startowego
+
+    // Tworzenie tablicy wynikowej
+    int* path = new int[length];
+    int index = length - 1;
+
+    // Wypełnianie tablicy ścieżki
+    for (int v = end; v != start; v = vertex[v].parent) {
+        path[index--] = v;
+    }
+    path[index] = start;
+
+    return path;
+}
+
 void Dijkstra::printPath( const EdgeList& edgesWrap, int start, int end) {
     if (edgesWrap.edges[end].weight == -1) {
         std::cout << "Nie ma dostępnej sciezki z " << edgesWrap.edges[0].start << " do " << end << std::endl;

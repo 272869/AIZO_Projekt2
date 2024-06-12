@@ -5,14 +5,13 @@
 class AdjacencyList {
 public:
     struct Edge {
-        unsigned int dest;
-        int weight;
-
+        unsigned int dest; //koncowy wierzcholek
+        int weight; //waga
         Edge(unsigned int dest, int weight) : dest(dest), weight(weight) {};
     };
     struct EdgeList {
         int size = 0;
-        Edge *list = nullptr;
+        Edge *list = nullptr; //tablica wskaznikow na krawedzie
     };
 private:
     int vertices;
@@ -22,8 +21,8 @@ public:
     ~AdjacencyList();
     void addEdge(unsigned int startVertex,unsigned int endVertex, int weight);
 
-    [[nodiscard]] int getVertices() const;
-    [[nodiscard]] EdgeList *getAdjList() const;
+    int getVertices() const;
+    EdgeList *getAdjList() const;
 
     void print();
 };

@@ -4,7 +4,7 @@
 #include <iomanip>
 
 AdjacencyList::AdjacencyList(int vertices): vertices(vertices) {
-    adjList = new EdgeList[vertices];
+    adjList = new EdgeList[vertices]; //lista sasiedztwa dla kazdego wierzcholka
 }
 
 AdjacencyList::~AdjacencyList() {
@@ -16,9 +16,9 @@ AdjacencyList::~AdjacencyList() {
 
 void AdjacencyList::addEdge(unsigned int startVertex, unsigned int endVertex, int weight) {
     if(adjList[startVertex].list == nullptr){
-        adjList[startVertex].list = new Edge[1]{Edge{endVertex, weight}};
+        adjList[startVertex].list = new Edge[1]{Edge{endVertex, weight}}; //Jeśli lista sąsiedztwa dla danego wierzchołka jest pusta, alokuje pamięć na nową krawędź.
         adjList[startVertex].size += 1;
-    } else {
+    } else { //W przeciwnym razie, realokuje pamięć dla nowej krawędzi i przepisuje istniejące krawędzie.
         size_t newSize = sizeof(Edge) * (adjList[startVertex].size + 1);
         Edge* temp = static_cast<Edge*>(std::realloc(adjList[startVertex].list, newSize));
 

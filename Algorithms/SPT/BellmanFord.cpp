@@ -5,13 +5,13 @@ BellmanFord::SPTVertex* BellmanFord::vertex = nullptr;
 EdgeList BellmanFord::getSPT(IncidenceMatrix *matrix, int start) {
     int vertNum = (int)matrix->getNumVertices();
     int edgeNum = (int)matrix->getNumEdges();
-    vertex = new SPTVertex[vertNum];
-    vertex[start].parent = start;
-    vertex[start].minWeight = 0;
+    vertex = new SPTVertex[vertNum]; // tablica do przechowywania najkrótszych ścieżek
+    vertex[start].parent = start;// ustawienie rodzica startowego wierzchołka na siebie
+    vertex[start].minWeight = 0;// waga do samego siebie jest zerowa
 
     for(int k = 0; k < vertNum - 1; k++){
         for(int i = 0; i < edgeNum; i++){
-            int tempStart = -1;
+            int tempStart = -1; // zmienne pomocnicze do przechowywania wierzchołków i wagi krawędzi
             int tempEnd = -1;
             int tempWeight = -1;
             for(int j = 0; j < vertNum; j++){
@@ -22,10 +22,10 @@ EdgeList BellmanFord::getSPT(IncidenceMatrix *matrix, int start) {
                 else if(matrix->getMatrix()[j][i] == -1) tempEnd = j;
                 if(tempStart != -1 && tempEnd != -1) break;
             }
-            if(vertex[tempStart].minWeight != -1){
+            if(vertex[tempStart].minWeight != -1){ // jeśli istnieje ścieżka do wierzchołka startowego
                 if(vertex[tempEnd].minWeight > tempWeight + vertex[tempStart].minWeight  || vertex[tempEnd].minWeight == -1){
-                    vertex[tempEnd].minWeight = tempWeight + vertex[tempStart].minWeight;
-                    vertex[tempEnd].parent = tempStart;
+                    vertex[tempEnd].minWeight = tempWeight + vertex[tempStart].minWeight; // zaktualizowanie minimalnej wagi
+                    vertex[tempEnd].parent = tempStart; // zaktualizowanie rodzica
                 }
             }
         }
@@ -57,7 +57,7 @@ EdgeList BellmanFord::getSPT(AdjacencyList *list, int start) {
                 int tempEnd = (int)list->getAdjList()[i].list[j].dest;
                 int tempWeight = list->getAdjList()[i].list[j].weight;
                 if(tempWeight == -1) continue;
-                if(vertex[tempStart].minWeight != -1){
+                if(vertex[tempStart].minWeight != -1){ // pomijanie krawędzi z wagą -1 bo to krawędź pomocnicza do grafów nieskierowanych
                     if(vertex[tempEnd].minWeight > tempWeight + vertex[tempStart].minWeight  || vertex[tempEnd].minWeight == -1){
                         vertex[tempEnd].minWeight = tempWeight + vertex[tempStart].minWeight;
                         vertex[tempEnd].parent = tempStart;
@@ -107,9 +107,9 @@ int* BellmanFord::getPath(int start, int end) {
     return path;
 }
 
-void BellmanFord::printPath( const EdgeList& edgesWrap, int start, int end) {
-    if (edgesWrap.edges[end].weight == -1) {
-        std::cout << "Nie ma dostępnej sciezki z " << edgesWrap.edges[0].start << " do " << end << std::endl;
+void BellmanFord::printPath( const EdgeList& edgesList, int start, int end) {
+    if (edgesList.edges[end].weight == -1) {
+        std::cout << "Nie ma dostępnej sciezki z " << edgesList.edges[0].start << " do " << end << std::endl;
         return;
     }
     int* path = getPath(start, end);

@@ -5,12 +5,12 @@
 #include <fstream>
 #include <sstream>
 
-class EdgeList {
+class EdgeList { //struktura która zwraca l. weirzchołków, krawędzi i tablicę krawędzi z wagami
 public:
     struct Edge {
-        int start;
-        int end;
-        int weight;
+        int start; //początek krawędzi
+        int end; //koniec krawędzi
+        int weight; //waga
 
         Edge(){
             start = 0;
@@ -47,7 +47,7 @@ public:
         }
     }
 
-    void print(){
+    void print(){ //printowanie listy krawędzi
         for(int i = 0; i < edgesNum; i++){
             std::cout << edges[i].start << " " << edges[i].end << " "<< edges[i].weight << "\n";
         }

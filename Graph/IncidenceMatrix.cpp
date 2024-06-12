@@ -7,10 +7,11 @@ IncidenceMatrix::IncidenceMatrix(unsigned int vertices, unsigned int edges) {
     IncidenceMatrix::numEdges = edges;
 
     matrix = new int *[vertices];
+    //Tworzy dynamiczną tablicę wskaźników matrix, gdzie każdy wskaźnik wskazuje na tablicę o długości edges.
     for (int i = 0; i < vertices; ++i) {
         matrix[i] = new int[edges];
         for(int j = 0; j < edges; j++){
-            matrix[i][j] = 0;
+            matrix[i][j] = 0; // inicjalizuje wszystkie elementy macierzy wartościami 0.
         }
     }
 }
@@ -23,8 +24,9 @@ IncidenceMatrix::~IncidenceMatrix() {
 }
 
 void IncidenceMatrix::addEdge(unsigned int startVertex, unsigned int endVertex, unsigned short weight, unsigned int edge) {
+    //Upewnia się, że startVertex i endVertex są mniejsze niż liczba wierzchołków, a edge jest mniejszy niż liczba krawędzi.
     if(startVertex < numVertices && endVertex < numVertices && edge < numEdges){
-        matrix[startVertex][edge] = weight;
+        matrix[startVertex][edge] = weight; //Ustawia wage krawędzi dla wierzchołka początkowego.
         matrix[endVertex][edge] = -1;
     }
 }

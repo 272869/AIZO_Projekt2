@@ -24,7 +24,7 @@ EdgeList GenerateGraph::generateEdgeList(unsigned int vertices, unsigned char de
     for(int i = 0; i < vertices - 1; i++){
         verticesToVisit[i] = i + 1;
     }
-    //Generowanie drzewa rozpinającego
+//    Generowanie drzewa rozpinającego
 //    Pętla generuje minimalne drzewo rozpinające.
 //    W każdym kroku losowo wybierany jest jeden z nieodwiedzonych wierzchołków.
 //    Jeśli wierzchołek już został odwiedzony, iteracja jest powtarzana.
@@ -46,7 +46,7 @@ EdgeList GenerateGraph::generateEdgeList(unsigned int vertices, unsigned char de
 //        Z listy nieodwiedzonych wierzchołków usuwany jest wierzchołek tempEnd,
 //        a do tablicy krawędzi edges dodawana jest nowa krawędź z losową wagą.
 //        Aktualizowany jest również licznik pozostałych do wygenerowania krawędzi.
-        int offset = 0;
+        int offset = 0; //Zmienna offset jest używana do usunięcia elementu tempEnd z tablicy verticesToVisit.
         for(int j = 0; j < verticesToVisitSize - 1; j++){
             if(verticesToVisit[j] == tempEnd) offset = 1;
             verticesToVisit[j] = verticesToVisit[j + offset];

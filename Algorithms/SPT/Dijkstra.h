@@ -7,9 +7,9 @@
 
 class Dijkstra {
     struct SPTVertex{
-        bool visited = false;
-        int minWeight = -1;
-        int parent = -1;
+        bool visited = false; //Informacja o tym, czy wierzchołek został odwiedzony.
+        int minWeight = -1; //Minimalna waga krawędzi prowadzącej do tego wierzchołka.
+        int parent = -1; //Indeks rodzica wierzchołka w drzewie SPT.
     };
 public:
     static int totalCost;
