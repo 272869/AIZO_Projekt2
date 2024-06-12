@@ -1,7 +1,7 @@
 
 #include <fstream>
 #include <sstream>
-#include "EdgesWrap.h"
+#include "EdgesList.h"
 #include "ReadGraph.h"
 
 EdgeList ReadGraph::readGraph(const std::string& filename) {

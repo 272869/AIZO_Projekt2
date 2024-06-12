@@ -3,7 +3,7 @@
 #define AIZO_P2_READGRAPH_H
 #include <fstream>
 #include <sstream>
-#include "EdgesWrap.h"
+#include "EdgesList.h"
 
 class ReadGraph {
 public:

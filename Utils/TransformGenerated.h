@@ -3,7 +3,7 @@
 #include "../Graph/IncidenceMatrix.h"
 #include "../Graph/AdjacencyList.h"
 #include "GenerateGraph.h"
-#include "EdgesWrap.h"
+#include "EdgesList.h"
 
 class TransformGenerated {
 public:

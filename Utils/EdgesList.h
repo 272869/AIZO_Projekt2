@@ -1,5 +1,5 @@
-#ifndef AIZO_P2_EDGESWRAP_H
-#define AIZO_P2_EDGESWRAP_H
+#ifndef AIZO_P2_EDGESLIST_H
+#define AIZO_P2_EDGESLIST_H
 
 #include <iostream>
 #include <fstream>
@@ -54,4 +54,4 @@ public:
     }
 };
 
-#endif //AIZO_P2_EDGESWRAP_H
+#endif //AIZO_P2_EDGESLIST_H

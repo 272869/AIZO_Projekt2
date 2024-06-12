@@ -1,7 +1,7 @@
 #ifndef AIZO_P2_PRIM_H
 #define AIZO_P2_PRIM_H
 
-#include "../../Utils/EdgesWrap.h"
+#include "../../Utils/EdgesList.h"
 #include "../../Graph/IncidenceMatrix.h"
 #include "../../Graph/AdjacencyList.h"
 

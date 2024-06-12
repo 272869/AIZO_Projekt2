@@ -13,7 +13,7 @@ add_executable(AIZO_P2 main.cpp
         Utils/GenerateGraph.h
         Utils/TransformGenerated.cpp
         Utils/TransformGenerated.h
-        Utils/EdgesWrap.h
+        Utils/EdgesList.h
         Algorithms/MST/Prim.cpp
         Algorithms/MST/Prim.h
         Algorithms/MST/Kruskal.cpp

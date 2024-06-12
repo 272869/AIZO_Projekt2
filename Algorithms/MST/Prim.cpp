@@ -7,24 +7,24 @@ EdgeList Prim::getMST(IncidenceMatrix *matrix) {
 
 
     for(int k = 0; k < vertNum - 1; k++) {
-        int minParentWeight = -1;
-        int minParent = -1;
-        for (int i = 0; i < vertNum; i++) {
-            if (!mstVertex[i].visited && mstVertex[i].minWeight > -1
-                && (mstVertex[i].minWeight < minParentWeight || minParentWeight == -1)) {
+        int minParentWeight = -1; //minParentWeight przechowuje najmniejszą wagę spośród wierzchołków, które mogą zostać dodane do MST.
+        int minParent = -1; //minParent przechowuje indeks wierzchołka z najmniejszą wagą, który zostanie dodany do MST.
+        for (int i = 0; i < vertNum; i++) { //Przechodzimy przez wszystkie wierzchołki.
+            if (!mstVertex[i].visited && mstVertex[i].minWeight > -1 //Szukamy wierzchołka, który nie zostal odwiedzony
+                && (mstVertex[i].minWeight < minParentWeight || minParentWeight == -1)) { //i ma najmniejszą wagę minWeight
                 minParentWeight = mstVertex[i].minWeight;
                 minParent = i;
             }
         }
 
-        for (int i = 0; i < matrix->getNumEdges(); i++) {
-            int tempParWeight = matrix->getMatrix()[minParent][i];
-            if (tempParWeight != 0) {
-                for (int j = 0; j < vertNum; j++) {
+        for (int i = 0; i < matrix->getNumEdges(); i++) { //Przechodzimy przez wszystkie krawędzie w grafie.
+            int tempParWeight = matrix->getMatrix()[minParent][i]; //tempParWeight to waga krawędzi łączącej minParent z krawędzią i.
+            if (tempParWeight != 0) { //czy istnieje krawędź łącząca wybrany wierzchołek z innymi wierzchołkami
+                for (int j = 0; j < vertNum; j++) { //Przechodzimy przez wszystkie wierzchołki j, które są różne od minParent.
                     if (minParent == j) continue;
-                    int tempChildWeight = matrix->getMatrix()[j][i];
+                    int tempChildWeight = matrix->getMatrix()[j][i]; //tempChildWeight to waga krawędzi łączącej wierzchołek j z krawędzią i.
                     if (tempChildWeight != 0) {
-                        if (tempChildWeight > tempParWeight) {
+                        if (tempChildWeight > tempParWeight) { //Uaktualniamy tempParWeight do większej z wag między tempParWeight i tempChildWeight
                             tempParWeight = tempChildWeight;
                         }
                         if (!mstVertex[j].visited && (mstVertex[j].minWeight > tempParWeight || mstVertex[j].minWeight == -1)) {
@@ -35,7 +35,7 @@ EdgeList Prim::getMST(IncidenceMatrix *matrix) {
                 }
             }
         }
-        mstVertex[minParent].visited = true;
+        mstVertex[minParent].visited = true; //Oznaczamy wierzchołek minParent jako odwiedzony
     }
     auto* edges = new EdgeList::Edge[vertNum-1];
     int j = 0;
@@ -50,6 +50,7 @@ EdgeList Prim::getMST(IncidenceMatrix *matrix) {
     delete[] mstVertex;
     return {(unsigned  int)vertNum, (unsigned  int)vertNum-1, edges};
 }
+
 EdgeList Prim::getMST(AdjacencyList *list) {
     int vertNum = (int)list->getVertices();
     auto* mstVertex = new MSTVertex[vertNum];

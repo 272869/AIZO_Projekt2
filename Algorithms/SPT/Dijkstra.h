@@ -2,7 +2,7 @@
 #define AIZO_P2_DIJKSTRA_H
 
 #include "../../Graph/IncidenceMatrix.h"
-#include "../../Utils/EdgesWrap.h"
+#include "../../Utils/EdgesList.h"
 #include "../../Graph/AdjacencyList.h"
 
 class Dijkstra {

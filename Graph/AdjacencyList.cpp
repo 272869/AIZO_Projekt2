@@ -31,6 +31,9 @@ void AdjacencyList::addEdge(unsigned int startVertex, unsigned int endVertex, in
         adjList[startVertex].list[adjList[startVertex].size++] = Edge(endVertex, weight);
     }
     if(weight > -1) addEdge(endVertex, startVertex, -1);
+    //tutaj dodajemy krawędź odwrotną przydatną w grafie nieskierowanym
+    // jesli np. od 0 do 4 jest krawędz z waga 5 to od 4 do 0 jest tworzona krawedz z -1, aby bylo wiadomo ze taka istnieje
+    //ale w grafie skierowanym nie jest ona brana po uwagę
 }
 
 
